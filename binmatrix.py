@@ -43,9 +43,11 @@ class BinMatrix:
 		"""
 		Initilize a matrix.
 		"""
+
 		self.m = m
 		self.r_len = len(self.m) # row number
 		self.c_len = len(self.m[0]) # column number
+		self.__isBinary()
 		# self.length = len(self.m)
 
 	def __convertMatrixToInt(self):
@@ -182,3 +184,10 @@ class BinMatrix:
 			else:
 				raise RankError(r)
 		return [map(int, list(format((m_adj[i] >> self.c_len), "0" + str(self.r_len) + "b"))) for i in range(self.r_len)]
+	
+	def is_base(self):
+		"""
+		reutrn True if the Row space is base of Binary field
+		"""
+		return self.det() == 1
+		
