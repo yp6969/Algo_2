@@ -1,16 +1,14 @@
 
-
 import itertools
 from binmatrix import BinMatrix
-import numpy as np
-#  product -> מכפלה קרטזית
-#  combinations -> קבוצות וקטורים מועמודות להיות בסיס
 
 N = 4
 
 
 class BinaryLinearSpace:
-
+    """
+    class presents BinaryLinearSpace, default order if not given is 4.
+    """
     def __init__(self, order=N):
         self.order = order
 

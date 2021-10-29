@@ -2,6 +2,8 @@
 
 # Implemented by Xiang Zejun, State Key Laboratory of Information Security, 
 # Institute Of Information Engineering, CAS
+from functools import reduce
+
 
 class DataError(Exception):
 	"""
@@ -16,7 +18,8 @@ class DataError(Exception):
 		self.y = y
 
 	def printError(self):
-		print "The element at [{0}][{1}] is NOT binary!".format(self.x, self.y)
+		print("The element at [{0}][{1}] is NOT binary!".format(self.x, self.y))
+
 
 class FormatError(Exception):
 	"""
@@ -25,8 +28,10 @@ class FormatError(Exception):
 	"""
 	def __init__(self, s):
 		self.error = "The input is " + s
+
 	def printError(self):
-		print self.error
+		print(self.error)
+
 
 class RankError(Exception):
 	"""
@@ -35,18 +40,19 @@ class RankError(Exception):
 	"""
 	def __init__(self, r):
 		self.r = r
+
 	def printError(self):
-		print "The matrix is NOT full rank. (rank = {0})".format(self.r)
+		print("The matrix is NOT full rank. (rank = {0})".format(self.r))
+
 
 class BinMatrix:
-	def __init__(self, m = [[1]]):
+	def __init__(self, m=[[1]]):
 		"""
 		Initilize a matrix.
 		"""
-
 		self.m = m
-		self.r_len = len(self.m) # row number
-		self.c_len = len(self.m[0]) # column number
+		self.r_len = len(self.m)  # row number
+		self.c_len = len(self.m[0])  # column number
 		self.__isBinary()
 		# self.length = len(self.m)
 
@@ -94,13 +100,12 @@ class BinMatrix:
 		the corresponding rows are nonzero.
 		"""
 		mask = (1 << (self.c_len - 1 - c))
-		it = range(self.r_len)
+		it = list(range(self.r_len))
 		it.remove(r)
 		for i in it:
 			if m_int[i] & mask != 0:
 				m_int[i] ^= m_int[r]
 
-	
 	def __isMatrix(self):
 		"""
 		Check whether the input is a matrix.
@@ -174,7 +179,7 @@ class BinMatrix:
 		c = 0
 		for i in range(self.r_len):
 			arg = self.__chooseElement(r, c, m_adj)
-			if arg != None:
+			if arg is not None:
 				r_temp = arg[0]
 				c = arg[1]
 				self.__switchRows(r, r_temp, m_adj)
@@ -189,5 +194,5 @@ class BinMatrix:
 		"""
 		reutrn True if the Row space is base of Binary field
 		"""
-		return self.det() == 1
+		return self.det() != 0
 		
