@@ -1,7 +1,7 @@
 
 import itertools
 from binmatrix import BinMatrix
-
+import json
 N = 4
 
 
@@ -70,9 +70,18 @@ class BinaryLinearSpace:
         bases_as_strings = self.groups_to_strings(bases)
         return bases_as_strings
 
+    def save_bases_to_files(self):
+        bases = self.get_all_bases()
+        file_name = f'bases_{self.order}.json'
+        with open(file_name, 'w') as f:
+            json.dump(bases, f, ensure_ascii=False, indent=4)
+
 
 """
 usage example:
     ex = BinaryLinearSpace(3)
     bases = ex.get_all_bases()
 """
+
+ex = BinaryLinearSpace(5)
+ex.save_bases_to_files()
