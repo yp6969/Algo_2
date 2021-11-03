@@ -1,5 +1,6 @@
 
 import itertools
+from AlgoUtils import timer
 from binmatrix import BinMatrix
 import json
 N = 4
@@ -12,6 +13,7 @@ class BinaryLinearSpace:
     def __init__(self, order=N):
         self.order = order
 
+    @timer
     def get_all_vectors(self):
         """
         :return: all vector in this LinearSpace, without 0 vector.
@@ -20,6 +22,7 @@ class BinaryLinearSpace:
         vectors.remove(tuple([0]*self.order))
         return vectors
 
+    @timer
     def get_all_groups_of_vectors(self, size=N):
         """
         :return: all combinations(with given size) of vectors from this LinearSpace
@@ -44,6 +47,7 @@ class BinaryLinearSpace:
 
         return lst
 
+    @timer
     def get_group_of_bases(self, group_of_groups):
         """
         :param group_of_groups: group of groups, every subgroup is potential to be base.
@@ -61,10 +65,12 @@ class BinaryLinearSpace:
         print(f"From {len(group_of_groups)} groups, {len(bases_lst)} are bases and {not_bases} are not bases")
         return bases_lst
 
+    @timer
     def get_all_bases(self):
         """
         :return: list of all bases in this LinearSpace, each base presented as binary string.
         """
+        print(f'Searching for bases for LinearSpace with dimension {self.order}...')
         all_groups = self.get_all_groups_of_vectors(self.order)
         bases = self.get_group_of_bases(all_groups)
         bases_as_strings = self.groups_to_strings(bases)
@@ -82,6 +88,3 @@ usage example:
     ex = BinaryLinearSpace(3)
     bases = ex.get_all_bases()
 """
-
-ex = BinaryLinearSpace(5)
-ex.save_bases_to_files()
