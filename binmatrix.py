@@ -5,19 +5,19 @@
 from functools import reduce
 import numpy as np
 from itertools import combinations
+from AlgoUtils import timer
 
-
-def time_calc(func):
-    from time import time
-
-    def wrapper(*args, **kwargs):
-        start = time()
-        val = func(*args, **kwargs)
-        end = time()
-        print(f"the fime of {func.__name__} is: {end - start}")
-        return val
-
-    return wrapper
+# def time_calc(func):
+#     from time import time
+#
+#     def wrapper(*args, **kwargs):
+#         start = time()
+#         val = func(*args, **kwargs)
+#         end = time()
+#         print(f"the fime of {func.__name__} is: {end - start}")
+#         return val
+#
+#     return wrapper
 
 
 class DataError(Exception):
@@ -154,7 +154,6 @@ class BinMatrix:
                 else:
                     pass
 
-    @time_calc
     def rank(self):
         """
 		Calculate the Rank of the matrix.
@@ -166,11 +165,9 @@ class BinMatrix:
         c = 0
         for i in range(self.r_len):
             arg = self.__chooseElement(r, c, m_int)
-            print(f'arg = {arg}')
             if arg is not None:
                 r_temp = arg[0]
                 c = arg[1]
-                print(f'm_int = {m_int}')
                 self.__switchRows(r, r_temp, m_int)
                 self.__addRows(r, c, m_int)
                 r += 1
@@ -213,7 +210,7 @@ class BinMatrix:
         return [map(int, list(format((m_adj[i] >> self.c_len), "0" + str(self.r_len) + "b"))) for i in
                 range(self.r_len)]
 
-    @time_calc
+    @timer
     def is_base(self):
         """
         calculate base by determinant
@@ -221,7 +218,7 @@ class BinMatrix:
         """
         return self.det() != 0
 
-    @time_calc
+    @timer
     def is_base2(self):
         """
         determine if the metrix is base by checking all the linear
