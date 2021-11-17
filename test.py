@@ -1,3 +1,5 @@
+from functools import reduce
+
 import pytest
 import numpy as np
 
@@ -22,28 +24,38 @@ from binmatrix import BinMatrix, FormatError, DataError, RankError
 
 
 @pytest.fixture()
-def binary_matrix():
-    return np.array([[1, 1, 0, 0],
-                     [0, 0, 1, 1],
-                     [1, 0, 1, 1],
-                     [0, 0, 0, 1]])
+def base_matrix():
+    return BinMatrix(np.array([[1, 1, 0, 0],
+                               [0, 0, 1, 1],
+                               [1, 0, 1, 1],
+                               [0, 0, 0, 1]]))
 
 
-base = np.array([[1, 0, 0, 0],
-                 [0, 1, 0, 0],
-                 [0, 0, 1, 0],
-                 [0, 0, 0, 1]])
-
-not_base = np.array([[1, 0, 0, 1],
-                     [0, 1, 0, 0],
-                     [1, 0, 1, 1],
-                     [0, 1, 1, 0]])
+@pytest.fixture()
+def natural_base():
+    return BinMatrix(np.array([[1, 0, 0, 0],
+                               [0, 1, 0, 0],
+                               [0, 0, 1, 0],
+                               [0, 0, 0, 1]]))
 
 
-def test_is_base():
-    b_matrix = BinMatrix(base)
-    b_matrix2 = BinMatrix(not_base)
-    assert b_matrix.is_base() is True
-    assert b_matrix.is_base2() is True
-    assert b_matrix2.is_base() is False
-    assert b_matrix2.is_base2() is False
+@pytest.fixture()
+def not_base():
+    return BinMatrix(np.array([[1, 0, 0, 1],
+                               [0, 1, 0, 0],
+                               [1, 0, 1, 1],
+                               [0, 1, 1, 0]]))
+
+
+def test_is_base(natural_base, not_base):
+    assert natural_base.is_base() is True
+    assert natural_base.is_base2() is True
+    assert not_base.is_base() is False
+    assert not_base.is_base2() is False
+
+
+def test_rank(natural_base):
+    print()
+    # print(natural_base)
+    assert natural_base.rank() == 4
+

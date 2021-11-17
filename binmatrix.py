@@ -12,11 +12,12 @@ def time_calc(func):
 
     def wrapper(*args, **kwargs):
         start = time()
-        func(*args, **kwargs)
+        val = func(*args, **kwargs)
         end = time()
         print(f"the fime of {func.__name__} is: {end - start}")
+        return val
 
-    return wrapper()
+    return wrapper
 
 
 class DataError(Exception):
@@ -76,13 +77,13 @@ class BinMatrix:
 
     def __convertMatrixToInt(self):
         """
-		Convert each row of the binary matrix to an integer.
-		"""
+        Convert each row of the binary matrix to an integer.
+        """
         return [int(reduce(lambda x, y: x + y, map(str, self.m[i])), 2) for i in range(self.r_len)]
 
     def __appendUnitMatrix(self):
         """
-		Append a unit matrix to m_int.
+        Append a unit matrix to m_int.
 		"""
         m_int = self.__convertMatrixToInt()
         return [(1 << (self.r_len + self.c_len - 1 - i)) ^ m_int[i] for i in range(self.r_len)]
@@ -101,7 +102,7 @@ class BinMatrix:
             if mask not in temp:
                 return self.__chooseElement(r, c + 1, m_int)
             else:
-                return (temp.index(mask) + r, c)
+                return temp.index(mask) + r, c
 
     @staticmethod
     def __switchRows(r1, r2, m_int):
@@ -153,6 +154,7 @@ class BinMatrix:
                 else:
                     pass
 
+    @time_calc
     def rank(self):
         """
 		Calculate the Rank of the matrix.
@@ -164,9 +166,11 @@ class BinMatrix:
         c = 0
         for i in range(self.r_len):
             arg = self.__chooseElement(r, c, m_int)
+            print(f'arg = {arg}')
             if arg is not None:
                 r_temp = arg[0]
                 c = arg[1]
+                print(f'm_int = {m_int}')
                 self.__switchRows(r, r_temp, m_int)
                 self.__addRows(r, c, m_int)
                 r += 1
@@ -209,6 +213,7 @@ class BinMatrix:
         return [map(int, list(format((m_adj[i] >> self.c_len), "0" + str(self.r_len) + "b"))) for i in
                 range(self.r_len)]
 
+    @time_calc
     def is_base(self):
         """
         calculate base by determinant
@@ -216,6 +221,7 @@ class BinMatrix:
         """
         return self.det() != 0
 
+    @time_calc
     def is_base2(self):
         """
         determine if the metrix is base by checking all the linear
