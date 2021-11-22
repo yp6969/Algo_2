@@ -13,9 +13,10 @@ class BFS:
 
     def run(self, start):
         """
-        First we will reset the old values of the distances and the pi's fields,
+        First we will reset the old values of the distances and the pi's fields [pi update temporarily removed],
         afterwards we will run the BFS methodology with the help of the 'Queue' data structure and will be assisted
-        with the 'get_neighbours' method that we receive from the 'vertex_neighbors' file.
+        with the 'findDiffVec' method that we build that help us to determine if we can move forward to neighbour vertex.
+
         """
         q = Queue()
         self.resetGraph()
@@ -51,7 +52,8 @@ class BFS:
 
     def findDiffVec(self, vertex, vertex_Dest):
         """
-        This method will return
+        This method will return for us the 2 vectors which have been replaced between the current vertex to the
+        neighbour vertex and with them we will check if the transition is valid before we check the distance.
         """
         keyA = keyB = 0
         for key, value in vertex_Dest.base_a.items():
@@ -82,10 +84,10 @@ if __name__ == "__main__":
     # baseB__test = {"011": False, "101": False, "110": False}
     # TODO :
     """
-    המימוש תקין, השינוי של הדגלים מתרחש הסריקה גם כן מתרחשת כמו שצריך, אבל יש בעיה כרגע במבנה נתונים של הגרף
-    שהוא לא מייצר בכלל את כל הקודקודים ראו דוג׳ ששמנו פה לשני הדרכים לייצור הגרף
+    המימוש תקין, השינוי של הדגלים מתרחש, הסריקה גם כן מתרחשת כמו שצריך, אבל יש בעיה כרגע במבנה נתונים של הגרף
+    שהוא לא מייצר בכלל את כל הקודקודים. ראו דוג׳ ששמנו פה לשתי הדרכים לייצור הגרף
     בבסיס 4 אנחנו מקבלים בכלל גרף עם 2 קודקודים כולל הבסיס שהוכנס, ובדוג׳ השניה אנחנו מקבלים 5 קודקודים,
-    כמו כן עבור בסיסים עם וקטורים זהים הבניה של הגרף נכשלת,
+    כמו כן עבור בסיסים עם וקטורים זהים הבניה של הגרף נכשלת [ראו דוג׳ בסוף הפונקציה],
     הסריקה שבנינו צריכה לעבוד עם גרף מלא כפי שרן תיאר במצב הנוכחי שהוא גם כנראה לא תקין היא לא תעבוד.
     """
 
