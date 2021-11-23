@@ -82,6 +82,8 @@ if __name__ == "__main__":
     baseB__test = {"1011": False, "1101": False, "1110": False, "1111": False}
     # baseA__test = {"001": False, "010": False, "100": False}
     # baseB__test = {"011": False, "101": False, "110": False}
+    graph_test = Graph(baseA__test, baseB__test, 4)
+    graph_test.print_graph()
     # TODO :
     """
     המימוש תקין, השינוי של הדגלים מתרחש, הסריקה גם כן מתרחשת כמו שצריך, אבל יש בעיה כרגע במבנה נתונים של הגרף
@@ -92,20 +94,20 @@ if __name__ == "__main__":
     """
 
     # TODO: שימו לב שבדוג׳ הנוכחית יש לנו רק 2 קודקודים בגרף לכן הסריקה לא תעבוד
-    graph__test = Graph(baseA__test, baseB__test, 4)
-    print("We have only 2 vertex here read the print that come afterward:\n")
-    graph__test.print_graph()
-    BFS__test = BFS(graph__test)
-    BFS__test.run(graph__test.vertex_lst[0])
-    x = BFS__test.retAllVertexWithDistance(3)
-    y = 2
-
-    """
-    דוג׳ לקריסה של הבנאי
-    """
-    badBuild_baseA = {"10": False, "01": False}
-    badBuild_baseB = {"10": False, "11": False}
-    try:
-        graphCollapse = Graph(badBuild_baseA, badBuild_baseB, 2)
-    except:
-        print("Need To Be Fixed.")
+    # graph__test = Graph(baseA__test, baseB__test, 4)
+    # print("We have only 2 vertex here read the print that come afterward:\n")
+    # graph__test.print_graph()
+    # BFS__test = BFS(graph__test)
+    # BFS__test.run(graph__test.vertex_lst[0])
+    # x = BFS__test.retAllVertexWithDistance(3)
+    # y = 2
+    #
+    # """
+    # דוג׳ לקריסה של הבנאי
+    # """
+    # badBuild_baseA = {"10": False, "01": False}
+    # badBuild_baseB = {"10": False, "11": False}
+    # try:
+    #     graphCollapse = Graph(badBuild_baseA, badBuild_baseB, 2)
+    # except:
+    #     print("Need To Be Fixed.")

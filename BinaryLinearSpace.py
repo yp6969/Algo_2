@@ -57,7 +57,7 @@ class BinaryLinearSpace:
         not_bases = 0
         for group in group_of_groups:
             bin_mat = BinMatrix(group)
-            if bin_mat.det() != 0:
+            if bin_mat.is_base():
                 bases_lst.append(group)
             else:
                 not_bases += 1
@@ -88,3 +88,6 @@ usage example:
     ex = BinaryLinearSpace(3)
     bases = ex.get_all_bases()
 """
+
+ex = BinaryLinearSpace(5)
+bases = ex.get_all_bases()

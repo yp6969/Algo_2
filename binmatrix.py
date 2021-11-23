@@ -210,16 +210,14 @@ class BinMatrix:
         return [map(int, list(format((m_adj[i] >> self.c_len), "0" + str(self.r_len) + "b"))) for i in
                 range(self.r_len)]
 
-    @timer
-    def is_base(self):
+    def is_baseAlternative(self):
         """
         calculate base by determinant
         reutrn True if the Row space is base of Binary field
         """
         return self.det() != 0
 
-    @timer
-    def is_base2(self):
+    def is_base(self):
         """
         determine if the metrix is base by checking all the linear
         combinations and check non zero resault
