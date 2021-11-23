@@ -94,6 +94,7 @@ if __name__ == "__main__":
     """
 
     # TODO: שימו לב שבדוג׳ הנוכחית יש לנו רק 2 קודקודים בגרף לכן הסריקה לא תעבוד
+    print('starting..')
     graph__test = Graph(baseA__test, baseB__test, 4)
     print("We have only 2 vertex here read the print that come afterward:\n")
     graph__test.print_graph()
