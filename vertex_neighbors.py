@@ -4,12 +4,14 @@ from Vertex import Vertex
 from binmatrix import BinMatrix
 
 
-def isBase(list_of_strings):
+def isBase(list_of_strings, dim):
     """
     :param list_of_strings: represents list of vectors which given in strings.
     the func convert the vectors to int.
     :return: true if the list represent a linear space base.
     """
+    if len(list_of_strings) != dim: # case: 2 same vectors (keys) in base so dictionary size will be dim-1 (same keys)
+        return False
     int_base = []
     for string in list_of_strings:
         row = [int(x) for x in string]
@@ -18,22 +20,11 @@ def isBase(list_of_strings):
     return matrix_base.is_base()
 
 
-def swapVec(dictA, dictB, keyA, keyB):
-    # TODO shani: change variable names to something that make more sense
-    # TODO shani: not need to create new dict, maybe can work on the exists ones (?)
-    newDictA = {}
-    newDictB = {}
-    for key in dictA:
-        if key != keyA:
-            newDictA[key] = dictA[key]
-        else:
-            newDictA[keyB] = True
-    for key in dictB:
-        if key != keyB:
-            newDictB[key] = dictB[key]
-        else:
-            newDictB[keyA] = True
-    return newDictA, newDictB
+def swapVec(baseA, baseB, vecA, vecB):
+    baseA.pop(vecA)
+    baseB.pop(vecB)
+    baseA[vecB] = True
+    baseB[vecA] = True
 
 
 def get_neighbours(vertex):
@@ -41,23 +32,19 @@ def get_neighbours(vertex):
     neighbours = []
     baseA = vertex.base_a
     baseB = vertex.base_b
-
+    dim   = len(baseB.keys())
     for a_vec, a_switched in baseA.items():
         if a_switched:
             continue
         for b_vec, b_switched in baseB.items():
             if b_switched:
                 continue
-
-            # TODO shani: sometimes one row is disappeared
-            # בגלל שמתבצעת החלפה עם וקטור שכבר קיים בבסיס
-            # ומדובר במילון, אז השורות הזהות לא נספרות פעמיים והן הופכות לאחת
-            baseA, baseB = swapVec(baseA, baseB, a_vec, b_vec)
-            if isBase(baseA.keys()) and isBase(baseB.keys()):
-                neighbours.append(Vertex(baseA, baseB))  # TODO check how to init vertex, fix it later
-
-            # TODO shani: need to turn off the flags of b_vec, a_vec
-            baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
+            swapVec(baseA, baseB, a_vec, b_vec)
+            if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
+                neighbours.append(Vertex(baseA, baseB))
+            swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
+            baseA[a_vec] = False
+            baseB[b_vec] = False
     return neighbours
 
 
