@@ -210,7 +210,6 @@ class BinMatrix:
         return [map(int, list(format((m_adj[i] >> self.c_len), "0" + str(self.r_len) + "b"))) for i in
                 range(self.r_len)]
 
-    @timer
     def is_base(self):
         """
         calculate base by determinant
@@ -218,7 +217,6 @@ class BinMatrix:
         """
         return self.det() != 0
 
-    @timer
     def is_base2(self):
         """
         determine if the metrix is base by checking all the linear

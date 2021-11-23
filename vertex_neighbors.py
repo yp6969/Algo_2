@@ -10,7 +10,7 @@ def isBase(list_of_strings, dim):
     the func convert the vectors to int.
     :return: true if the list represent a linear space base.
     """
-    if (dim != len(list_of_strings)): # case: dictionery got 2 same vectors, and deleted one of them
+    if dim != len(list_of_strings):  # case: 2 same vectors (keys) in base so dictionary size will be dim-1
         return False
     int_base = []
     for string in list_of_strings:
@@ -41,8 +41,7 @@ def get_neighbours(vertex):
     neighbours = []
     baseA = vertex.base_a
     baseB = vertex.base_b
-    dim = len(baseA.keys())
-
+    dim   = len(baseB.keys())
     for a_vec, a_switched in baseA.items():
         if a_switched:
             continue
@@ -52,10 +51,7 @@ def get_neighbours(vertex):
             baseA, baseB = swapVec(baseA, baseB, a_vec, b_vec)
             if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
                 neighbours.append(Vertex(baseA, baseB))
-
-            baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)
+            baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
             baseA[a_vec] = False
             baseB[b_vec] = False
     return neighbours
-
-
