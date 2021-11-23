@@ -24,9 +24,9 @@ class Vertex:
     def __str__(self):
         return f"Vertex with id {self.id}, neighbours = {[neighbour.id for neighbour in self.near_lst]}\n" \
                f"baseA = {self.base_a}\n" \
-               f"baseB = {self.base_b}\n" \
- \
- \
+               f"baseB = {self.base_b}\n"
+
+
 """
 Vertex example:
     vertex.base_a = {vector0: switched(True/False),  vector1: switched(True/False) ... }

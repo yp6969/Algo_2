@@ -10,7 +10,7 @@ def isBase(list_of_strings, dim):
     the func convert the vectors to int.
     :return: true if the list represent a linear space base.
     """
-    if len(list_of_strings) != dim: # case: 2 same vectors (keys) in base so dictionary size will be dim-1 (same keys)
+    if dim != len(list_of_strings):  # case: 2 same vectors (keys) in base so dictionary size will be dim-1
         return False
     int_base = []
     for string in list_of_strings:
@@ -21,10 +21,19 @@ def isBase(list_of_strings, dim):
 
 
 def swapVec(baseA, baseB, vecA, vecB):
-    baseA.pop(vecA)
-    baseB.pop(vecB)
-    baseA[vecB] = True
-    baseB[vecA] = True
+    newBaseA = {}
+    newBaseB = {}
+    for vec in baseA:
+        if vec != vecA:
+            newBaseA[vec] = baseA[vec]
+        else:
+            newBaseA[vecB] = True
+    for vec in baseB:
+        if vec != vecB:
+            newBaseB[vec] = baseB[vec]
+        else:
+            newBaseB[vecA] = True
+    return newBaseA, newBaseB
 
 
 def get_neighbours(vertex):
@@ -39,12 +48,10 @@ def get_neighbours(vertex):
         for b_vec, b_switched in baseB.items():
             if b_switched:
                 continue
-            swapVec(baseA, baseB, a_vec, b_vec)
+            baseA, baseB = swapVec(baseA, baseB, a_vec, b_vec)
             if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
                 neighbours.append(Vertex(baseA, baseB))
-            swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
+            baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
             baseA[a_vec] = False
             baseB[b_vec] = False
     return neighbours
-
-

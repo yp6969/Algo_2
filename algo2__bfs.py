@@ -94,20 +94,20 @@ if __name__ == "__main__":
     """
 
     # TODO: שימו לב שבדוג׳ הנוכחית יש לנו רק 2 קודקודים בגרף לכן הסריקה לא תעבוד
-    # graph__test = Graph(baseA__test, baseB__test, 4)
-    # print("We have only 2 vertex here read the print that come afterward:\n")
-    # graph__test.print_graph()
-    # BFS__test = BFS(graph__test)
-    # BFS__test.run(graph__test.vertex_lst[0])
-    # x = BFS__test.retAllVertexWithDistance(3)
-    # y = 2
-    #
-    # """
-    # דוג׳ לקריסה של הבנאי
-    # """
-    # badBuild_baseA = {"10": False, "01": False}
-    # badBuild_baseB = {"10": False, "11": False}
-    # try:
-    #     graphCollapse = Graph(badBuild_baseA, badBuild_baseB, 2)
-    # except:
-    #     print("Need To Be Fixed.")
+    graph__test = Graph(baseA__test, baseB__test, 4)
+    print("We have only 2 vertex here read the print that come afterward:\n")
+    graph__test.print_graph()
+    BFS__test = BFS(graph__test)
+    BFS__test.run(graph__test.vertex_lst[0])
+    x = BFS__test.retAllVertexWithDistance(3)
+    y = 2
+
+    """
+    דוג׳ לקריסה של הבנאי
+    """
+    badBuild_baseA = {"10": False, "01": False}
+    badBuild_baseB = {"10": False, "11": False}
+    try:
+        graphCollapse = Graph(badBuild_baseA, badBuild_baseB, 2)
+    except:
+        print("Need To Be Fixed.")
