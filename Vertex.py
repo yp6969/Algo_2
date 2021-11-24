@@ -21,10 +21,14 @@ class Vertex:
     def set_dv(self, d):
         self.dv = d
 
+    def get_base_to_print(self, a_or_b):
+        base = self.base_a if a_or_b == 'a' else self.base_b
+        return '\n'.join(base.keys())
+
     def __str__(self):
         return f"Vertex with id {self.id}, neighbours = {[neighbour.id for neighbour in self.near_lst]}\n" \
-               f"baseA = {self.base_a}\n" \
-               f"baseB = {self.base_b}\n"
+               f"baseA = \n{self.get_base_to_print('a')}\n" \
+               f"baseB = \n{self.get_base_to_print('b')}\n"
 
 
 """

@@ -88,6 +88,3 @@ usage example:
     ex = BinaryLinearSpace(3)
     bases = ex.get_all_bases()
 """
-
-ex = BinaryLinearSpace(5)
-bases = ex.get_all_bases()
