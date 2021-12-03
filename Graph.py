@@ -8,10 +8,17 @@ from vertex_neighbors import get_neighbours
 
 class Graph:
     def __init__(self, base_a, base_b, dim):
+        self.vertex_cnt = 0
         self.vertex_lst = []
-        self.vertex_lst.append(Vertex(base_a, base_b))
+        self.vertex_lst.append(Vertex(base_a, base_b, dim, self.vertex_cnt))
         self.dim = dim
         self.build()
+
+    def has_vertex(self, vertex):
+        for v in self.vertex_lst:
+            if v.equals(vertex):
+                return True
+        return False
 
     def build(self):
         queue = deque()
@@ -33,11 +40,12 @@ class Graph:
         vertex1.near_lst.append(vertex2)
         vertex2.near_lst.append(vertex1)
 
-    def save_graph_to_file(self, file_path):
+    def save_graph_to_file(self, file_path, print_info=False):
         try:
             with open(file_path, 'wb') as f:
                 pickle.dump(self, f)
-                color_print(f'Saved Graph to {file_path} Succeeded!', Colors.BLUE)
+                if print_info:
+                    color_print(f'Saved Graph to {file_path}', Colors.BLUE)
         except Exception as e:
             color_print(f'Failed to save graph to {file_path}. Reason: {e}', Colors.RED)
 

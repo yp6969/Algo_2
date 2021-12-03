@@ -41,7 +41,7 @@ def get_neighbours(vertex):
     neighbours = []
     baseA = vertex.base_a
     baseB = vertex.base_b
-    dim   = len(baseB.keys())
+    dim = len(baseB.keys())
     for a_vec, a_switched in baseA.items():
         if a_switched:
             continue
@@ -50,7 +50,7 @@ def get_neighbours(vertex):
                 continue
             baseA, baseB = swapVec(baseA, baseB, a_vec, b_vec)
             if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
-                neighbours.append(Vertex(baseA, baseB))
+                neighbours.append(Vertex(baseA, baseB, dim))
             baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
             baseA[a_vec] = False
             baseB[b_vec] = False
