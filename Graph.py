@@ -8,9 +8,9 @@ from vertex_neighbors import get_neighbours
 
 class Graph:
     def __init__(self, base_a, base_b, dim):
-        self.vertex_cnt = 0
         self.vertex_lst = []
-        self.vertex_lst.append(Vertex(base_a, base_b, dim, self.vertex_cnt))
+        self.vertex_lst.append(Vertex(base_a, base_b, dim, v_id=0))
+        self.vertex_cnt = 1
         self.dim = dim
         self.build()
 
@@ -33,7 +33,11 @@ class Graph:
                 queue.append(neighbour)
 
     def add_vertex(self, vertex):
-        if vertex not in self.vertex_lst:
+        if vertex in self.vertex_lst:
+            return
+        if vertex.v_id == 'NA':
+            vertex.v_id = self.vertex_cnt
+            self.vertex_cnt += 1
             self.vertex_lst.append(vertex)
 
     def add_edge(self, vertex1: Vertex, vertex2: Vertex):
@@ -61,8 +65,8 @@ class Graph:
 
     def print_adjacency_list(self):
         for vertex in self.vertex_lst:
-            near_lst_ids = [v.id for v in vertex.near_lst]
-            print(f'{vertex.id} -> {near_lst_ids}')
+            near_lst_ids = [v.v_id for v in vertex.near_lst]
+            print(f'{vertex.v_id} -> {near_lst_ids}')
 
     def print_vertices(self):
         for vertex in self.vertex_lst:

@@ -43,7 +43,7 @@ class Vertex:
         return '\n'.join(base.keys())
 
     def __str__(self):
-        return f"Vertex with id {self.id}, neighbours = {[neighbour.id for neighbour in self.near_lst]}\n" \
+        return f"Vertex with id {self.v_id}, neighbours = {[neighbour.v_id for neighbour in self.near_lst]}\n" \
                f"baseA = \n{self.get_base_to_print('a')}\n" \
                f"baseB = \n{self.get_base_to_print('b')}\n"
 

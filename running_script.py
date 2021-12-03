@@ -3,8 +3,8 @@ from Runner import *
 import argparse
 import platform
 
-N = 3
-PROC_NUM = 2
+N = 4
+PROC_NUM = 5
 PRINT_INFO = False
 
 
