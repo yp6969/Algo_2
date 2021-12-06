@@ -32,7 +32,7 @@ class Runner:
             os.mkdir(dir_path)
 
     @timer
-    def run(self, groupA, groupB, dim, num_of_processes, print_info=False):
+    def run(self, groupA, groupB, dim, num_of_processes, print_info=False, override=False):
         color_print('@@@@@@@ Start Running @@@@@@@@@', Colors.BLUE + Colors.UNDERLINE + Colors.BOLD)
         self.path_for_files = self.get_path_for_files(len(groupA), len(groupB), dim)
         self.dim = dim
@@ -40,7 +40,7 @@ class Runner:
         pool = multiprocessing.Pool(processes=num_of_processes)
         need_to_load = os.path.exists(self.path_for_files)
         self.create_directory(self.path_for_files)
-        if need_to_load:
+        if need_to_load and not override:
             color_print(f'Loading graphs from {self.path_for_files}', Colors.BLUE)
             files_names = os.listdir(self.path_for_files)
             results = pool.map(self.load_graph_and_check_results, files_names)
