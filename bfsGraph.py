@@ -4,6 +4,7 @@ from itertools import combinations
 from itertools import product
 from AlgoUtils import timer
 from _collections import deque
+from AlgoUtils import color_print, Colors
 
 
 class HTMN_GRAPH:
@@ -80,7 +81,8 @@ class HTMN_GRAPH:
                     self.__targetsVertex.append(newVertex)
                 self.__vertex_lst.append(newVertex)
                 self.__vertexHash[self.getVertexAsInt(tupleBases[0], tupleBases[1])] = newVertex
-
+            color_print(f'{len(self.__vertex_lst)} Vertices created, now need to create edges between neighbors',
+                        Colors.YELLOW + Colors.UNDERLINE + Colors.BOLD)
         except Exception as e:
             raise ValueError(f'createAllVertices failed according to : {e} \n')
 

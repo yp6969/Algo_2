@@ -2,7 +2,7 @@
 
 from queue import Queue
 from bfsGraph import *
-
+from AlgoUtils import color_print, Colors
 
 class BFS:
 
@@ -57,10 +57,10 @@ class BFS:
         return 0
 
     def resetGraph(self):
-        # Reset all the distances first, and the boolean flags.
+        # Reset all the distances first, and the boolean flags & pi's.
         for vertex in self.__graph.getAllV():
             vertex.set_dv(float('inf'))
-            # vertex.set_pi(0) TODO: Maybe in the future ...
+            vertex.set_pi(0)
             self.resetBooleanFlags(vertex)
 
     def resetBooleanFlags(self, vertex):
@@ -113,10 +113,14 @@ if __name__ == "__main__":
     For graphs of base 5 and above it's impossible to generate a graph due to the sheer number of bases
     formula : {k = number of bases} => (knCr2) * 2
     """
-    print('starting..')
+    color_print('Start running: First build the graph', Colors.BLUE + Colors.UNDERLINE + Colors.BOLD)
     graph__test = HTMN_GRAPH("bases_4.json", 4)
+    color_print('The graph is ready: Start bfs runs on the target vertices', Colors.YELLOW + Colors.UNDERLINE + Colors.BOLD)
     BFS__test = BFS(graph__test)
+    counter = 1
     for target in graph__test.getTargetsVertices():
         BFS__test.run(target)
         BA_Vertex = graph__test.getOppositeVertex(target)
-        print(f'dv = {BA_Vertex.dv}')
+        color_print(f'dv = {BA_Vertex.dv}, {counter} Target vertices performed a bfs scan', Colors.GREEN + Colors.UNDERLINE + Colors.BOLD)
+        counter += 1
+    color_print('The scan is complete.', Colors.BLUE + Colors.UNDERLINE + Colors.BOLD)
