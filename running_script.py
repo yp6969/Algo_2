@@ -4,8 +4,8 @@ import argparse
 import platform
 
 N = 4
-PROC_NUM = 5
-PRINT_INFO = False
+PROC_NUM = 3
+PRINT_INFO = True
 
 
 def exec(args):

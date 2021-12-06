@@ -6,7 +6,7 @@ def timer(func):
         time1 = time.time()
         ret_value = func(*args, **kwargs)
         time2 = time.time()
-        color_print(f"Timer: function {func.__name__} took {(time2 - time1):.2f} seconds", Colors.GREEN)
+        color_print(f"Timer: function {func.__name__} took {(time2 - time1):.2f} seconds", Colors.BLUE)
         return ret_value
 
     return wrapper

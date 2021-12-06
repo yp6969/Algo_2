@@ -9,6 +9,8 @@ from vertex_neighbors import get_neighbours
 class Graph:
     def __init__(self, base_a, base_b, dim):
         self.vertex_lst = []
+        self.base_a = base_a
+        self.base_b = base_b
         self.vertex_lst.append(Vertex(base_a, base_b, dim, v_id=0))
         self.vertex_cnt = 1
         self.dim = dim

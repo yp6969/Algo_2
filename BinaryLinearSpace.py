@@ -47,7 +47,6 @@ class BinaryLinearSpace:
 
         return lst
 
-    @timer
     def get_group_of_bases(self, group_of_groups):
         """
         :param group_of_groups: group of groups, every subgroup is potential to be base.
