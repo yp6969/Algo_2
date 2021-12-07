@@ -10,11 +10,8 @@ def isBase(list_of_strings, dim):
     the func convert the vectors to int.
     :return: true if the list represent a linear space base.
     """
-<<<<<<< HEAD
-    if len(list_of_strings) != dim:  # case: 2 same vectors (keys) in base so dictionary size will be dim-1 (same keys)
-=======
+
     if len(list_of_strings) != dim: # case: 2 same vectors (keys) in base so dictionary size will be dim-1 (same keys)
->>>>>>> b14c22b6afee0171ec2d1941881b62593e0cbc71
         return False
     int_base = []
     for string in list_of_strings:
@@ -40,19 +37,12 @@ def swapVec(baseA, baseB, vecA, vecB):
     return newBaseA, newBaseB
 
 
-<<<<<<< HEAD
 def get_neighbours(vertex, sourceVertex=None):
-=======
-def get_neighbours(vertex, isLastLayer=False, foundSwappedVertex=False):
->>>>>>> b14c22b6afee0171ec2d1941881b62593e0cbc71
     # Assumption - base given in list of strings
     neighbours = []
     baseA = vertex.base_a.copy()
     baseB = vertex.base_b.copy()
-<<<<<<< HEAD
     foundSwappedVertex = False
-=======
->>>>>>> b14c22b6afee0171ec2d1941881b62593e0cbc71
     dim = len(baseB.keys())
     for a_vec, a_switched in baseA.items():
         if a_switched:
@@ -60,7 +50,6 @@ def get_neighbours(vertex, isLastLayer=False, foundSwappedVertex=False):
         for b_vec, b_switched in baseB.items():
             if b_switched:
                 continue
-<<<<<<< HEAD
             tmpbaseA, tmpbaseB = swapVec(baseA, baseB, a_vec, b_vec)
             if isBase(tmpbaseA.keys(), dim) and isBase(tmpbaseB.keys(), dim):
                 neighbours.append(Vertex(tmpbaseA, tmpbaseB, dim))
@@ -68,26 +57,9 @@ def get_neighbours(vertex, isLastLayer=False, foundSwappedVertex=False):
                     if sourceVertex.base_a == tmpbaseB and sourceVertex.base_b == tmpbaseA:
                         foundSwappedVertex = True
                         break
-            # baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
-            # baseA[a_vec] = False
-            # baseB[b_vec] = False
         if foundSwappedVertex:
             break
     return neighbours if sourceVertex is None else (neighbours, foundSwappedVertex)
-=======
-            swapVec(baseA, baseB, a_vec, b_vec)
-            if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
-                neighbours.append(Vertex(baseA, baseB))
-                if isLastLayer and vertex.base_a == baseB and vertex.base_b == baseA:
-                    foundSwappedVertex = True
-                    break
-            swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
-            baseA[a_vec] = False
-            baseB[b_vec] = False
-        if foundSwappedVertex:
-            break
-    return neighbours, foundSwappedVertex
->>>>>>> b14c22b6afee0171ec2d1941881b62593e0cbc71
 
 
 def is2BasesCanSwap(vertex):
@@ -98,31 +70,14 @@ def is2BasesCanSwap(vertex):
     foundSwappedVertex = False
     currentLayerNeighbours, foundSwappedVertex = get_neighbours(vertex)
     while layer < dim:
-        # handle last layer:
-<<<<<<< HEAD
-        # if layer == dim - 2:
         currentLayerNeighbours, foundSwappedVertex = get_neighbours(vertex, foundSwappedVertex)
         if foundSwappedVertex:
             return layer
-        # else:
-        #    currentLayerNeighbours, _ = nextLayersNeighbours(currentLayerNeighbours)
         layer += 1
     return layer
 
 
 def nextLayersNeighbours(array_of_layer):
-=======
-        if layer == dim - 2:
-            currentLayerNeighbours, foundSwappedVertex = get_neighbours(vertex, True, foundSwappedVertex)
-            if foundSwappedVertex:
-                return True
-        else:
-           currentLayerNeighbours, foundSwappedVertex = layers_neighbours(currentLayerNeighbours)
-    return False
-
-
-def layers_neighbours(array_of_layer):
->>>>>>> b14c22b6afee0171ec2d1941881b62593e0cbc71
     neighbours = []
     for vertex in array_of_layer:
         neighbours += get_neighbours(vertex)
