@@ -75,8 +75,9 @@ class BinaryLinearSpace:
         bases_as_strings = self.groups_to_strings(bases)
         return bases_as_strings
 
-    def save_bases_to_files(self):
-        bases = self.get_all_bases()
+    def save_bases_to_files(self, bases=None):
+        if not bases:
+            bases = self.get_all_bases()
         file_name = f'bases_{self.order}.json'
         with open(file_name, 'w') as f:
             json.dump(bases, f, ensure_ascii=False, indent=4)

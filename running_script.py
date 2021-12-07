@@ -2,11 +2,24 @@
 from Runner import *
 import argparse
 import platform
+import json
 
+
+# Parameters for Windows running
 N = 4
-PROC_NUM = 3
+PROC_NUM = 5
 PRINT_INFO = True
 OVERRIDE = False
+
+
+def get_bases(dim):
+    file_name = f'bases_{dim}.json'
+    if os.path.exists(file_name):
+        with open(file_name, 'r') as f:
+            return json.load(f)
+    space = BinaryLinearSpace(args.dim)
+    bases = space.get_all_bases()
+    space.save_bases_to_files(bases)
 
 
 def exec(args):
@@ -17,8 +30,7 @@ def exec(args):
         args.override = OVERRIDE
     args.dim = int(args.dim)
     args.proc_num = int(args.proc_num)
-    space = BinaryLinearSpace(args.dim)
-    bases = space.get_all_bases()
+    bases = get_bases(args.dim)
     standart_base = bases.pop(0)
     runner = Runner()
     runner.run([standart_base], bases, dim=args.dim, num_of_processes=args.proc_num, print_info=args.print_info,
@@ -29,7 +41,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Running Algo2 question according to given flags')
     parser.add_argument('-d', '--dim', dest='dim', help='Dimension')
     parser.add_argument('-p', '--procnum', dest='proc_num', help='num of processes to run the program')
-    parser.add_argument('-i', '--print_info', dest='print_info', help='print additional info')
+    parser.add_argument('-i', '--print_info', dest='print_info', action='store_true',
+                        help='print additional info')
     parser.add_argument('--override', dest='override', action='store_true',
                         help='override the graphs directory if exists')
     return parser.parse_args()
