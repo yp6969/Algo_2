@@ -9,7 +9,7 @@ import json
 N = 4
 PROC_NUM = 1
 PRINT_INFO = True
-OVERRIDE = False
+OVERRIDE = True
 
 
 def get_bases(dim):
