@@ -10,7 +10,7 @@ def isBase(list_of_strings, dim):
     the func convert the vectors to int.
     :return: true if the list represent a linear space base.
     """
-    if dim != len(list_of_strings):  # case: 2 same vectors (keys) in base so dictionary size will be dim-1
+    if len(list_of_strings) != dim: # case: 2 same vectors (keys) in base so dictionary size will be dim-1 (same keys)
         return False
     int_base = []
     for string in list_of_strings:
@@ -36,11 +36,11 @@ def swapVec(baseA, baseB, vecA, vecB):
     return newBaseA, newBaseB
 
 
-def get_neighbours(vertex):
+def get_neighbours(vertex, isLastLayer=False, foundSwappedVertex=False):
     # Assumption - base given in list of strings
     neighbours = []
-    baseA = vertex.base_a
-    baseB = vertex.base_b
+    baseA = vertex.base_a.copy()
+    baseB = vertex.base_b.copy()
     dim = len(baseB.keys())
     for a_vec, a_switched in baseA.items():
         if a_switched:
@@ -48,10 +48,41 @@ def get_neighbours(vertex):
         for b_vec, b_switched in baseB.items():
             if b_switched:
                 continue
-            baseA, baseB = swapVec(baseA, baseB, a_vec, b_vec)
+            swapVec(baseA, baseB, a_vec, b_vec)
             if isBase(baseA.keys(), dim) and isBase(baseB.keys(), dim):
-                neighbours.append(Vertex(baseA, baseB, dim))
-            baseA, baseB = swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
+                neighbours.append(Vertex(baseA, baseB))
+                if isLastLayer and vertex.base_a == baseB and vertex.base_b == baseA:
+                    foundSwappedVertex = True
+                    break
+            swapVec(baseA, baseB, b_vec, a_vec)  # swap back to continue loop
             baseA[a_vec] = False
             baseB[b_vec] = False
+        if foundSwappedVertex:
+            break
+    return neighbours, foundSwappedVertex
+
+
+def is2BasesCanSwap(vertex):
+    baseA = vertex.base_a
+    baseB = vertex.base_b
+    layer = 1
+    dim = len(vertex)
+    foundSwappedVertex = False
+    currentLayerNeighbours, foundSwappedVertex = get_neighbours(vertex)
+    while layer < dim:
+        # handle last layer:
+        if layer == dim - 2:
+            currentLayerNeighbours, foundSwappedVertex = get_neighbours(vertex, True, foundSwappedVertex)
+            if foundSwappedVertex:
+                return True
+        else:
+           currentLayerNeighbours, foundSwappedVertex = layers_neighbours(currentLayerNeighbours)
+    return False
+
+
+def layers_neighbours(array_of_layer):
+    neighbours = []
+    for vertex in array_of_layer:
+        neighbours += get_neighbours(vertex)
     return neighbours
+
