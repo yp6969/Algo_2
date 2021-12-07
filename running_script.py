@@ -7,7 +7,7 @@ import json
 
 # Parameters for Windows running
 N = 4
-PROC_NUM = 5
+PROC_NUM = 1
 PRINT_INFO = True
 OVERRIDE = False
 
@@ -15,11 +15,13 @@ OVERRIDE = False
 def get_bases(dim):
     file_name = f'bases_{dim}.json'
     if os.path.exists(file_name):
+        color_print(f'Loading Bases from {file_name}', Colors.BLUE)
         with open(file_name, 'r') as f:
             return json.load(f)
     space = BinaryLinearSpace(args.dim)
     bases = space.get_all_bases()
     space.save_bases_to_files(bases)
+    return bases
 
 
 def exec(args):
