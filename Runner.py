@@ -39,14 +39,14 @@ class Runner:
         self.print_info = print_info
         pool = multiprocessing.Pool(processes=num_of_processes)
         need_to_load = os.path.exists(self.path_for_files)
-        self.create_directory(self.path_for_files)
-        if need_to_load and not override:
-            color_print(f'Loading graphs from {self.path_for_files}', Colors.BLUE)
-            files_names = os.listdir(self.path_for_files)
-            results = pool.map(self.load_graph_and_check_results, files_names)
-        else:
-            bases_tuples = itertools.product(groupA, groupB)
-            results = pool.map(self.build_graph_and_check_results, bases_tuples)
+        # self.create_directory(self.path_for_files)
+        # if need_to_load and not override:
+        #     color_print(f'Loading graphs from {self.path_for_files}', Colors.BLUE)
+        #     files_names = os.listdir(self.path_for_files)
+        #     results = pool.map(self.load_graph_and_check_results, files_names)
+        # else:
+        bases_tuples = itertools.product(groupA, groupB)
+        results = pool.map(self.build_graph_and_check_results, bases_tuples)
 
         results_path = self.save_results_to_file(results)
         color_print(f'Results can be found at: {results_path}', Colors.BLUE)
@@ -68,9 +68,9 @@ class Runner:
             print("pid:{} is running {}".format(os.getpid(), bases_tuple))
         base_a, base_b = bases_tuple
         graph = Graph(base_a, base_b, self.dim)
-        graph_file_name = "{}_{}.p".format(base_a, base_b)
-        graph_file_path = os.path.join(self.path_for_files, graph_file_name)
-        graph.save_graph_to_file(graph_file_path)
+        # graph_file_name = "{}_{}.p".format(base_a, base_b)
+        # graph_file_path = os.path.join(self.path_for_files, graph_file_name)
+        # graph.save_graph_to_file(graph_file_path)
         if self.print_info:
             self.print_result_of_graph(graph)
         return self.get_result(graph)
