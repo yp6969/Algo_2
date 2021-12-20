@@ -1,4 +1,4 @@
-from BinaryLinearSpace import *
+import json
 
 """
 Written By:
@@ -7,28 +7,27 @@ Mor Nagli, Tom Eliya, Hen Ben LuLu, Niv Nagli
 
 
 class hashBaseMat:
-    def __init__(self, groupOfBases):
-        self.__bases = groupOfBases
-        self.__hashTable = self.addAllBases()
+    def __init__(self):
+        self.baseHashMap = {}
 
-    @staticmethod
-    def baseToInt(tupleOfTuples):
-        res = ""
-        for innerTuple in tupleOfTuples:
-            res += "".join(str(ele) for ele in innerTuple)
-        return int(res, 2)
+    def buildJsonHashFromBasesFile(self, fileName, dim):
+        try:
+            basesFile = open(fileName)
+            data = json.load(basesFile)
+            basesFile.close()
+            self.fillHashFromFileData(data)
+            with open(f'basesHash{dim}.json', 'w') as fp:
+                json.dump(self.baseHashMap, fp)
 
-    def addAllBases(self):
-        res = {}
-        for base in self.__bases:
-            res[self.baseToInt(base)] = base
-        return res
+        except Exception as e:
+            raise ValueError(f'buildJsonHashFromBasesFile failed following to : {e} \n')
 
-    def getHashTable(self):
-        return self.__hashTable
+    def fillHashFromFileData(self, fileData):
+        self.baseHashMap = {}  # Reset the previous result if we have one.
+        for base in fileData:
+            self.baseHashMap[int(base, 2)] = True
 
 
 if __name__ == '__main__':
-    x = BinaryLinearSpace().get_group_of_bases(BinaryLinearSpace().get_all_groups_of_vectors())  # get all the bases
-    print('Hash table example for the return value that we get via the "BinaryLinearSpace" class')
-    print(hashBaseMat(x).getHashTable())
+    hashBuilder = hashBaseMat()
+    hashBuilder.buildJsonHashFromBasesFile('bases_5.json', 5)
