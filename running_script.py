@@ -3,7 +3,7 @@ from Runner import *
 import argparse
 import platform
 import json
-
+import itertools
 
 # Parameters for Windows running
 N = 4
@@ -50,6 +50,12 @@ def parse_args():
     return parser.parse_args()
 
 
+def run_with_perms():
+    runner = Runner()
+    runner.run_with_perms(5, 3)
+
+
 if __name__ == '__main__':
-    args = parse_args()
-    exec(args)
+    # args = parse_args()
+    # exec(args)
+    run_with_perms()

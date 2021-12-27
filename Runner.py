@@ -106,8 +106,54 @@ class Runner:
         step = self.dim
         return [base[i: i + step] for i in range(0, num_of_vectors * step, step)]
 
-    def run_I_To_All(self, dim, num_of_processes, print_info=False):
-        space = BinaryLinearSpace(dim)
-        all_bases = space.get_all_bases()
+    def run_with_perms(self, dim, vectors_subset_size):
+        self.dim = dim
+        linear_space = BinaryLinearSpace(dim)
+        all_bases = linear_space.get_all_bases()
         standart_base = all_bases.pop(0)
-        self.run([standart_base], all_bases, dim=dim, num_of_processes=num_of_processes, print_info=print_info)
+        standart_base = self.convert_str_base_to_dict(standart_base, dim)
+        tuples_list = list(itertools.combinations(standart_base, vectors_subset_size))
+        for base in all_bases:
+            # I -> baseK
+            base = self.convert_str_base_to_dict(base, dim)
+            baseB = {vector: False for vector in base}
+            for tuple in tuples_list:
+                baseA = self.init_I_flags(standart_base, tuple)
+                graph = Graph(baseA, baseB, dim)
+                self.print_result_of_graph_with_perms(graph, tuple)
+
+    def convert_str_base_to_dict(self, base, dim):
+        num_of_vectors = (len(base) + dim - 1) // dim
+        step = dim
+        return [base[i: i + step] for i in range(0, num_of_vectors * step, step)]
+
+    def init_I_flags(self, standart_base, vectors_to_set_false):
+        return {vector: (False if vector in vectors_to_set_false else True) for vector in standart_base}
+
+    def get_results_with_perms(self, graph: Graph, tuple):
+        # baseA = graph.base_a
+        # baseB = graph.base_b
+        # values = baseA.values()
+        vetrex_lst = graph.vertex_lst
+        for vertex in vetrex_lst:
+            result = True
+            base_b = vertex.base_b
+            for vector in tuple:
+                if vector not in base_b:
+                    result = False
+                    break
+            if result:
+                return True
+        return False
+
+    def print_result_of_graph_with_perms(self, graph, tuple):
+        base_a = graph.base_a
+        base_b = graph.base_b
+        result = self.get_results_with_perms(graph, tuple)
+        color = Colors.GREEN if result else Colors.RED
+        color_print('----------- {}: {} -----------'.format(result, tuple), color)
+        base_a_vectors = base_a.keys()
+        base_b_vectors = base_b.keys()
+        for v_a, v_b in zip(base_a_vectors, base_b_vectors):
+            color_print('{}  {}'.format(v_a, v_b), color)
+        color_print('--------------------------'.format(result), color)
