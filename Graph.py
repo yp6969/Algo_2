@@ -68,6 +68,7 @@ class Graph:
     def plot_graph(self, title="", file_name=None):
         import networkx as nx
         import matplotlib.pyplot as plt
+        plt.clf()
         G = nx.Graph()
         vertex_lst = self.vertex_lst
         edges = []

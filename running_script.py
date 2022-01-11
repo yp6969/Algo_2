@@ -10,7 +10,7 @@ N = 4
 PROC_NUM = 1
 PRINT_INFO = True
 OVERRIDE = True
-PLOT = True
+PLOT = False
 
 
 def get_bases(dim):

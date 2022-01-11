@@ -147,9 +147,7 @@ class Runner:
                     result = False
                     break
             if result:
-                # print(base_b)
                 orders_cnt += 1
-        graph.plot_graph(title=f'3 vectors chosen are: {tuple}', file_name='1.png')
         return orders_cnt
 
     def print_result_of_graph_with_perms(self, graph, tuple):
@@ -163,9 +161,6 @@ class Runner:
         for v_a, v_b in zip(base_a_vectors, base_b_vectors):
             color_print('{}  {}'.format(v_a, v_b), color)
         color_print('--------------------------'.format(result), color)
-        if result == 8:
-            color_print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Colors.RED)
-            sys.exit()
+        if self.plot and result != 6 and not os.path.exists(f'{result}.png'):
+
+            graph.plot_graph(title=f'3 vectors chosen are: {tuple}', file_name=f'{result}.png')
