@@ -10,6 +10,7 @@ N = 4
 PROC_NUM = 1
 PRINT_INFO = True
 OVERRIDE = True
+PLOT = True
 
 
 def get_bases(dim):
@@ -18,7 +19,7 @@ def get_bases(dim):
         color_print(f'Loading Bases from {file_name}', Colors.BLUE)
         with open(file_name, 'r') as f:
             return json.load(f)
-    space = BinaryLinearSpace(args.dim)
+    space = BinaryLinearSpace(dim)
     bases = space.get_all_bases()
     space.save_bases_to_files(bases)
     return bases
@@ -52,7 +53,7 @@ def parse_args():
 
 def run_with_perms():
     runner = Runner()
-    runner.run_with_perms(5, 3)
+    runner.run_with_perms(5, 3, PLOT)
 
 
 if __name__ == '__main__':

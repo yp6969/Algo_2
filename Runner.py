@@ -1,5 +1,6 @@
 import json
 import pickle
+import sys
 
 from AlgoUtils import color_print, Colors, timer
 from Graph import Graph
@@ -17,6 +18,8 @@ class Runner:
         self.path_for_files = None
         self.dim = None
         self.print_info = None
+        self.plot = False
+        self.i = 0
 
     def get_path_for_files(self, len_groupA, len_groupB, dim):
         curr_dir = os.getcwd()
@@ -106,8 +109,9 @@ class Runner:
         step = self.dim
         return [base[i: i + step] for i in range(0, num_of_vectors * step, step)]
 
-    def run_with_perms(self, dim, vectors_subset_size):
+    def run_with_perms(self, dim, vectors_subset_size, plot=False):
         self.dim = dim
+        self.plot = plot
         linear_space = BinaryLinearSpace(dim)
         all_bases = linear_space.get_all_bases()
         standart_base = all_bases.pop(0)
@@ -131,11 +135,11 @@ class Runner:
         return {vector: (False if vector in vectors_to_set_false else True) for vector in standart_base}
 
     def get_results_with_perms(self, graph: Graph, tuple):
-        # baseA = graph.base_a
-        # baseB = graph.base_b
-        # values = baseA.values()
         vetrex_lst = graph.vertex_lst
+        orders_cnt = 0
         for vertex in vetrex_lst:
+            if len(vertex.near_lst) != 1:
+                continue
             result = True
             base_b = vertex.base_b
             for vector in tuple:
@@ -143,17 +147,25 @@ class Runner:
                     result = False
                     break
             if result:
-                return True
-        return False
+                # print(base_b)
+                orders_cnt += 1
+        graph.plot_graph(title=f'3 vectors chosen are: {tuple}', file_name='1.png')
+        return orders_cnt
 
     def print_result_of_graph_with_perms(self, graph, tuple):
         base_a = graph.base_a
         base_b = graph.base_b
         result = self.get_results_with_perms(graph, tuple)
-        color = Colors.GREEN if result else Colors.RED
+        color = Colors.GREEN if result > 0 else Colors.RED
         color_print('----------- {}: {} -----------'.format(result, tuple), color)
         base_a_vectors = base_a.keys()
         base_b_vectors = base_b.keys()
         for v_a, v_b in zip(base_a_vectors, base_b_vectors):
             color_print('{}  {}'.format(v_a, v_b), color)
         color_print('--------------------------'.format(result), color)
+        if result == 8:
+            color_print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+                        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", Colors.RED)
+            sys.exit()

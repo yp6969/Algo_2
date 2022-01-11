@@ -1,3 +1,4 @@
+import os
 import pickle
 from _collections import deque
 
@@ -57,6 +58,33 @@ class Graph:
 
     def size(self):
         return len(self.vertex_lst)
+
+    def __make_plots_directory(self):
+        path = './graph_plots'
+        if not os.path.exists(path):
+            os.mkdir(path)
+        return path
+
+    def plot_graph(self, title="", file_name=None):
+        import networkx as nx
+        import matplotlib.pyplot as plt
+        G = nx.Graph()
+        vertex_lst = self.vertex_lst
+        edges = []
+        for vertex in vertex_lst:
+            edges += [(vertex, neighbour) for neighbour in vertex.near_lst]
+        options = {'node_size': 23000, 'width': 2}
+        G.add_edges_from(edges)
+        plt.figure(figsize=(25, 25))
+        if title:
+            plt.title(title, fontdict={'size': 30})
+        nx.draw(G, with_labels=True, font_weight='bold', **options)
+        if file_name:
+            dir_path = self.__make_plots_directory()
+            file_path = os.path.join(dir_path, file_name)
+            plt.savefig(file_path)
+        else:
+            plt.show()
 
     def print_graph(self):
         color_print(f'Graph has {self.size()} vertices, dim={self.dim}\n', Colors.BLUE)
