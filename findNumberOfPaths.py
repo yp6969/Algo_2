@@ -71,10 +71,27 @@ def run(fileName, dim):
         basesFile.close()
         sBase = data[0]
         allOtherBases = data[1:]
+        minimumNumPath = float("inf")
+        minimumVer = 0
+        maximumVer = 0
+        maximumNumPath = -1
+        allVerPaths = []
         for base in allOtherBases:
             testedVertex = Vertex(sBase, base, dim)
-            print("for the Vertex", sBase, base)
-            print("Paths = ", findAllPaths(testedVertex, dim))
+            tempResultOfPath = findAllPaths(testedVertex, dim)
+            if tempResultOfPath < minimumNumPath:
+                minimumNumPath = tempResultOfPath
+                minimumVer = sBase + base
+
+            if maximumNumPath < tempResultOfPath:
+                maximumNumPath = tempResultOfPath
+                maximumVer = sBase + base
+            allVerPaths.append((sBase + base, tempResultOfPath))
+        with open('allPaths{di}.json'.format(di=dim), 'w') as fp:
+            json.dump(("minNum = " + minimumVer, minimumNumPath), fp)
+            json.dump(("maxNum = " + maximumVer, maximumNumPath), fp)
+            json.dump(allVerPaths, fp)
+
 
 
     except Exception as e:
@@ -115,4 +132,4 @@ def compareVer(verA, verB):
 
 
 if __name__ == '__main__':
-    run("bases_5.json", 5)
+    run("bases_4.json", 4)
